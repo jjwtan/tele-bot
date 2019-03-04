@@ -3,16 +3,14 @@ import logging
 import requests
 import json
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                     level=logging.INFO)
-
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='bot.log',level=logging.INFO)
 
 def start(bot, update):
-    print("start")
+    logger.info("start")
     chat_id = update.message.chat_id
-    print(update.message)
+    logger.info(update.message)
     user = str(update.message.from_user.username)
-#189857418
     welcome_text = "Hellooo " + user + "! I am bot"
     bot.send_message(chat_id=chat_id, text=welcome_text)
     bot.send_message(chat_id=189857418, text= user + " started")
@@ -27,7 +25,7 @@ def get_address(pcode):
         result = json.loads(response)
         return result["results"][0]["ADDRESS"]
     except:
-        print('Fetching {} failed.'.format(pcode))
+        logger.error('Fetching {} failed.'.format(pcode))
 
 
 def all_message(bot, update):
@@ -53,7 +51,7 @@ def main():
     dp.add_handler(command_handler)
     dp.add_handler(text_handler)
 
-    print("start polling")
+    logger.info("start polling")
     updater.start_polling()
     updater.idle()
 
