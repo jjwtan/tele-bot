@@ -40,8 +40,13 @@ def all_message(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=address)
     bot.send_message(chat_id=189857418, text=str(from_)+": " + text)
 
+def getToken():
+    with open('../token', 'r') as myfile:
+        token=myfile.read().replace('\n', '')
+    return token
+
 def main():
-    updater = Updater("")
+    updater = Updater(getToken())
     dp = updater.dispatcher
 
     start_handler = CommandHandler("start", start)
